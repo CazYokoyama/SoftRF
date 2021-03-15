@@ -19,6 +19,8 @@
 #ifndef SOUNDHELPER_H
 #define SOUNDHELPER_H
 
+#include "AudioVario.h"
+
 #define ALARM_TONE_HZ     1040
 #define ALARM_TONE_MS     1000
 
