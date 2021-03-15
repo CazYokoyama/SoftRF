@@ -49,6 +49,9 @@ bool Sound_Notify(void)
   return rval;
 }
 
+static unsigned long VarioTimeMarker = 0;
+static int vs = 0;
+
 void Sound_loop(void)
 {
   if (SoundTimeMarker != 0) { /* Sound_Notify */
@@ -56,8 +59,14 @@ void Sound_loop(void)
       SoC->Sound_tone(0, settings->volume);
       SoundTimeMarker = 0;
     }
-  } else /* Audio Vario */
-    Audio_Vario(ThisAircraft.vs);
+  } else { /* Audio Vario */
+    if ((millis() - VarioTimeMarker) > 1000) {
+      if (vs++ > 17)
+	vs = -17;
+      VarioTimeMarker = millis();
+    }
+    Audio_Vario(abs(vs));
+  }
 }
 
 void Sound_fini(void)
