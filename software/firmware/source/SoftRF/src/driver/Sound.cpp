@@ -51,10 +51,13 @@ bool Sound_Notify(void)
 
 void Sound_loop(void)
 {
-  if (SoundTimeMarker != 0 && millis() - SoundTimeMarker > ALARM_TONE_MS) {
-    SoC->Sound_tone(0, settings->volume);
-    SoundTimeMarker = 0;
-  }
+  if (SoundTimeMarker != 0) { /* Sound_Notify */
+    if (millis() - SoundTimeMarker > ALARM_TONE_MS) {
+      SoC->Sound_tone(0, settings->volume);
+      SoundTimeMarker = 0;
+    }
+  } else /* Audio Vario */
+    Audio_Vario(ThisAircraft.vs);
 }
 
 void Sound_fini(void)
