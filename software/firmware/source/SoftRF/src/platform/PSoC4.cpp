@@ -543,18 +543,21 @@ static void PSoC4_Battery_setup()
 
 static float PSoC4_Battery_param(uint8_t param)
 {
+  extern float connected_to_Kobo;
   float rval, voltage;
 
   switch (param)
   {
   case BATTERY_PARAM_THRESHOLD:
-    rval = hw_info.model == SOFTRF_MODEL_MINI ? BATTERY_THRESHOLD_LIPO   :
-                                                BATTERY_THRESHOLD_NIMHX2;
+    rval = hw_info.model == SOFTRF_MODEL_MINI ?
+        BATTERY_THRESHOLD_LIPO * connected_to_Kobo :
+        BATTERY_THRESHOLD_NIMHX2;
     break;
 
   case BATTERY_PARAM_CUTOFF:
-    rval = hw_info.model == SOFTRF_MODEL_MINI ? BATTERY_CUTOFF_LIPO   :
-                                                BATTERY_CUTOFF_NIMHX2;
+    rval = hw_info.model == SOFTRF_MODEL_MINI ?
+        BATTERY_CUTOFF_LIPO * connected_to_Kobo :
+        BATTERY_CUTOFF_NIMHX2;
     break;
 
   case BATTERY_PARAM_CHARGE:
