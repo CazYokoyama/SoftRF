@@ -28,11 +28,16 @@ unsigned long Battery_TimeMarker        = 0;
 static float Battery_voltage_cache      = 0;
 static int Battery_cutoff_count         = 0;
 
+float connected_to_Kobo = 1.0;
+
 void Battery_setup()
 {
   SoC->Battery_setup();
 
   Battery_voltage_cache = SoC->Battery_param(BATTERY_PARAM_VOLTAGE);
+  if (Battery_voltage_cache < BATTERY_THRESHOLD_LIPO)
+      /* connected to +V of Kobo */
+      connected_to_Kobo = Battery_voltage_cache / BATTERY_THRESHOLD_LIPO;
   Battery_TimeMarker = millis();
 }
 
